@@ -6,6 +6,11 @@ public class InvoiceGeneratorTest {
 
     InvoiceGenerator invoiceGenerator;
 
+    @BeforeEach
+    void setUp() {
+        invoiceGenerator = new InvoiceGenerator();
+    }
+
     @Test
     public void givenDistanceAndTime_ShouldReturnFare() {
         invoiceGenerator = new InvoiceGenerator();
@@ -17,10 +22,20 @@ public class InvoiceGeneratorTest {
 
     @Test
     public void givenDistanceAndTime_ShouldReturnMinimumFare() {
-        invoiceGenerator = new InvoiceGenerator();
         double distance = 0.1;
         int time = 1;
         double fare = invoiceGenerator.calculatorFare(distance, time);
         Assertions.assertEquals(5.0, fare);
+    }
+
+    @Test
+    void givenMultipleRides_ShouldReturnAggregateTotalFare() {
+        Ride rides[] =
+                {
+                        new Ride(2.0, 5),
+                        new Ride(0.1, 1)
+                };
+        double totalFare = invoiceGenerator.calculatorRidesFare(rides);
+        Assertions.assertEquals(30, totalFare);
     }
 }
